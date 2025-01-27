@@ -1,0 +1,5 @@
+To this project works, currently you have to import my database to your MYSQL or a SGDB of your preference.
+
+After, you have to chance the database adress into the project, there´s a file named DB_Config.cs, insert your database connection string there, so the project can run.
+
+In the future, i´m planning to change the SGDB system, to become native in the software.
