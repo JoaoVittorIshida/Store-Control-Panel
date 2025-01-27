@@ -15,9 +15,7 @@ namespace Controle_de_Estoque
 {
     public partial class TelaLogin : Form
     {
-        public int NivelPermissao { get; private set; }
-        public string UsuarioLogado { get; private set; }
-
+    
         public TelaLogin()
         {
             InitializeComponent();
@@ -78,10 +76,8 @@ namespace Controle_de_Estoque
 
                 if (SenhaLogin.Text == DadosCarregados["senha"].ToString())
                 {
-                    NivelPermissao = Convert.ToInt32(DadosCarregados["permissao"]);
-                    UsuarioLogado = UsuarioLogin.Text;
+                    CurrentSession.IniciarSessao(UsuarioLogin.Text, Convert.ToInt32(DadosCarregados["permissao"]));
                     DadosCarregados.Close();
-
                     this.DialogResult = DialogResult.OK;
                 }
                 else

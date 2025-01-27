@@ -4,13 +4,11 @@ namespace Controle_de_Estoque
 {
     public partial class MenuPrincipal : Form
     {
-        private int nivelPermissao;
-        private string usuarioLogado;
-        public MenuPrincipal(string usuarioLogado, int nivelPermissao)
+        private int nivelPermissao = CurrentSession.SessaoAtual.NivelPermissao;
+        private string usuarioLogado = CurrentSession.SessaoAtual.NomeUsuario;
+        public MenuPrincipal()
         {
             InitializeComponent();
-            this.nivelPermissao = nivelPermissao;
-            this.usuarioLogado = usuarioLogado;
         }
 
         private void ControleEstoque_Load(object sender, EventArgs e)
@@ -51,7 +49,7 @@ namespace Controle_de_Estoque
         {
             //Tem restrições internas e outras necessidades, então para usuário e permissão como parâmetro
 
-            MovimentarEstoque adicionarEstoque = new MovimentarEstoque(usuarioLogado, nivelPermissao);
+            MovimentarEstoque adicionarEstoque = new MovimentarEstoque();
             adicionarEstoque.ShowDialog();
         }
 

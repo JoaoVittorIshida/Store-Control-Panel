@@ -13,10 +13,7 @@ namespace Controle_de_Estoque
             TelaLogin telaLogin = new TelaLogin();
             if (telaLogin.ShowDialog() == DialogResult.OK)
             {
-                string usuarioLogado = telaLogin.UsuarioLogado;
-                int nivelPermissao = telaLogin.NivelPermissao;
-
-                MenuPrincipal controleEstoque = new MenuPrincipal(usuarioLogado, nivelPermissao);
+                MenuPrincipal controleEstoque = new MenuPrincipal();
                 Application.Run(controleEstoque);
             }
         }

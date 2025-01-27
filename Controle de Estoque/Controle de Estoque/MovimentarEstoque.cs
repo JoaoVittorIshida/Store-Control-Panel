@@ -15,14 +15,11 @@ namespace Controle_de_Estoque
     public partial class MovimentarEstoque : Form
     {
 
-        private string usuarioLogado;
-        private int nivelPermissao;
-        public MovimentarEstoque(string UsuarioLogado, int NivelPermissao)
+        private int nivelPermissao = CurrentSession.SessaoAtual.NivelPermissao;
+        private string usuarioLogado = CurrentSession.SessaoAtual.NomeUsuario;
+        public MovimentarEstoque()
         {
             InitializeComponent();
-            this.usuarioLogado = UsuarioLogado;
-            this.nivelPermissao = NivelPermissao;
-
         }
 
         private MySqlConnection Obj_Conn = new MySqlConnection();
