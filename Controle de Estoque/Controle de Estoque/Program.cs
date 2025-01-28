@@ -14,7 +14,13 @@ namespace Controle_de_Estoque
             if (telaLogin.ShowDialog() == DialogResult.OK)
             {
                 MenuPrincipal controleEstoque = new MenuPrincipal();
-                Application.Run(controleEstoque);
+                MovimentarEstoque movimentarEstoque = new MovimentarEstoque();
+
+                if(CurrentSession.SessaoAtual.NivelPermissao == 0)
+                    Application.Run(movimentarEstoque);
+
+                if(CurrentSession.SessaoAtual.NivelPermissao != 0)
+                    Application.Run(controleEstoque);
             }
         }
     }

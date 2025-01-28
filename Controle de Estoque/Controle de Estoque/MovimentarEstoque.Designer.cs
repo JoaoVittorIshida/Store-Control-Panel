@@ -52,10 +52,12 @@
             Btn_Entrada = new Button();
             Btn_Saida = new Button();
             groupBox1 = new GroupBox();
+            Btn_VerEstoque = new Button();
             index_BuscaProduto = new NumericUpDown();
             Btn_Filtrar = new Button();
             groupBox2 = new GroupBox();
             Btn_LimparFiltro = new Button();
+            Lbl_Vendedor = new Label();
             Box_AltProd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Grid_PainelEstoque).BeginInit();
             ((System.ComponentModel.ISupportInitialize)index_Estoque).BeginInit();
@@ -164,7 +166,7 @@
             // 
             Label_EntrarSair.AutoSize = true;
             Label_EntrarSair.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Label_EntrarSair.Location = new Point(316, 239);
+            Label_EntrarSair.Location = new Point(316, 238);
             Label_EntrarSair.Name = "Label_EntrarSair";
             Label_EntrarSair.Size = new Size(152, 21);
             Label_EntrarSair.TabIndex = 10;
@@ -281,7 +283,7 @@
             // 
             // Btn_Entrada
             // 
-            Btn_Entrada.Location = new Point(16, 22);
+            Btn_Entrada.Location = new Point(159, 20);
             Btn_Entrada.Name = "Btn_Entrada";
             Btn_Entrada.Size = new Size(104, 48);
             Btn_Entrada.TabIndex = 1;
@@ -291,7 +293,7 @@
             // 
             // Btn_Saida
             // 
-            Btn_Saida.Location = new Point(165, 22);
+            Btn_Saida.Location = new Point(26, 20);
             Btn_Saida.Name = "Btn_Saida";
             Btn_Saida.Size = new Size(103, 48);
             Btn_Saida.TabIndex = 2;
@@ -301,6 +303,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(Btn_VerEstoque);
             groupBox1.Controls.Add(Btn_Saida);
             groupBox1.Controls.Add(Btn_Entrada);
             groupBox1.Location = new Point(470, 50);
@@ -309,6 +312,17 @@
             groupBox1.TabIndex = 13;
             groupBox1.TabStop = false;
             groupBox1.Text = "Opções de movimentação";
+            // 
+            // Btn_VerEstoque
+            // 
+            Btn_VerEstoque.Location = new Point(159, 20);
+            Btn_VerEstoque.Name = "Btn_VerEstoque";
+            Btn_VerEstoque.Size = new Size(104, 48);
+            Btn_VerEstoque.TabIndex = 17;
+            Btn_VerEstoque.Text = "Estoque";
+            Btn_VerEstoque.UseVisualStyleBackColor = true;
+            Btn_VerEstoque.Visible = false;
+            Btn_VerEstoque.Click += Btn_VerEstoque_Click;
             // 
             // index_BuscaProduto
             // 
@@ -351,11 +365,21 @@
             Btn_LimparFiltro.UseVisualStyleBackColor = true;
             Btn_LimparFiltro.Click += Btn_LimparFiltro_Click;
             // 
+            // Lbl_Vendedor
+            // 
+            Lbl_Vendedor.AutoSize = true;
+            Lbl_Vendedor.Location = new Point(74, 31);
+            Lbl_Vendedor.Name = "Lbl_Vendedor";
+            Lbl_Vendedor.Size = new Size(60, 15);
+            Lbl_Vendedor.TabIndex = 17;
+            Lbl_Vendedor.Text = "Vendedor:";
+            // 
             // MovimentarEstoque
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1136, 729);
+            Controls.Add(Lbl_Vendedor);
             Controls.Add(Btn_LimparFiltro);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -409,5 +433,7 @@
         private DataGridViewTextBoxColumn Produto;
         private DataGridViewTextBoxColumn Valor;
         private DataGridViewTextBoxColumn Estoque;
+        private Button Btn_VerEstoque;
+        private Label Lbl_Vendedor;
     }
 }

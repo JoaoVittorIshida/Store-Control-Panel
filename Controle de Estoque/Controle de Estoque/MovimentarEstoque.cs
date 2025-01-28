@@ -130,8 +130,15 @@ namespace Controle_de_Estoque
 
             if (nivelPermissao == 0)
             {
-                Btn_Entrada.Enabled = false;
-                Btn_Historico.Enabled = false; 
+                Btn_Entrada.Visible = false;
+                Btn_Historico.Visible = false;
+                Btn_Voltar.Text = "Sair";
+                label1.Text = "Ponto de Venda";
+                Btn_Saida.Text = "Nova venda";
+                Btn_Entrada.Visible = false;
+                groupBox1.Text = "Opções";
+                Btn_VerEstoque.Visible = true;
+                Lbl_Vendedor.Text = "Vendedor: " + usuarioLogado;
             }
 
             AtualizarDataGridSemFiltro();
@@ -139,6 +146,8 @@ namespace Controle_de_Estoque
 
         private void Btn_Voltar_Click(object sender, EventArgs e)
         {
+            if (nivelPermissao == 0)
+                Application.Restart();
             Close();
         }
 
@@ -176,7 +185,10 @@ namespace Controle_de_Estoque
             //Atualiza botões e labels para operação de saída
 
             op = 2;
-            Label_EntrarSair.Text = "Produto a sair: (-)";
+            if (nivelPermissao == 0)
+                Label_EntrarSair.Text = "Quantidade vendida:";
+            else
+                Label_EntrarSair.Text = "Produto a sair: (-)";
             AtualizarCampoEdicao();
             Btn_Confirmar.Text = "Confirmar saída";
             Btn_Cancelar.Text = "Cancelar saída";
@@ -238,12 +250,14 @@ namespace Controle_de_Estoque
             Obj_CmdSQL.Parameters.AddWithValue("@Quantidade", index_Movimentacao.Value);
             Obj_CmdSQL.Parameters.AddWithValue("@horaMov", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             Obj_CmdSQL.ExecuteNonQuery();
-
-            MessageBox.Show("Movimentação realizada com sucesso!", "Resultado da movimentação", MessageBoxButtons.OK);
+            if(nivelPermissao == 0)
+                MessageBox.Show("Venda realizada com sucesso!", "Venda confirmada", MessageBoxButtons.OK);
+            else
+                MessageBox.Show("Movimentação realizada com sucesso!", "Resultado da movimentação", MessageBoxButtons.OK);
             AtualizarDataGridSemFiltro();
             Grid_PainelEstoque.Visible = true;
             index_Movimentacao.Value = 0;
-            if(nivelPermissao >= 1)
+            if (nivelPermissao >= 1)
                 Btn_Entrada.Enabled = true;
             Btn_Saida.Enabled = true;
 
@@ -264,6 +278,12 @@ namespace Controle_de_Estoque
 
             HistoricoMov historicoMov = new HistoricoMov();
             historicoMov.ShowDialog();
+        }
+
+        private void Btn_VerEstoque_Click(object sender, EventArgs e)
+        {
+            VisualizarEstoque visualizarEstoque = new VisualizarEstoque();
+            visualizarEstoque.ShowDialog();
         }
     }
 

@@ -191,7 +191,7 @@ namespace Controle_de_Estoque
 
             try
             {
-
+                Obj_CmdSQL.Parameters.Clear();
                 Obj_CmdSQL.CommandText = strSQL;
                 Obj_CmdSQL.Parameters.AddWithValue("@Usuario", UsuarioReg.Text);
                 Obj_CmdSQL.Parameters.AddWithValue("@Senha", SenhaReg.Text);
