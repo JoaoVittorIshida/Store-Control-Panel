@@ -33,6 +33,8 @@
             Produto = new DataGridViewTextBoxColumn();
             Tipo = new DataGridViewTextBoxColumn();
             Quantidade = new DataGridViewTextBoxColumn();
+            ValorCusto = new DataGridViewTextBoxColumn();
+            ValorVenda = new DataGridViewTextBoxColumn();
             Horario = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)Grid_PainelHistorico).BeginInit();
             SuspendLayout();
@@ -44,7 +46,7 @@
             Grid_PainelHistorico.AllowUserToOrderColumns = true;
             Grid_PainelHistorico.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Grid_PainelHistorico.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Grid_PainelHistorico.Columns.AddRange(new DataGridViewColumn[] { Usuario, Produto, Tipo, Quantidade, Horario });
+            Grid_PainelHistorico.Columns.AddRange(new DataGridViewColumn[] { Usuario, Produto, Tipo, Quantidade, ValorCusto, ValorVenda, Horario });
             Grid_PainelHistorico.Location = new Point(12, 12);
             Grid_PainelHistorico.MultiSelect = false;
             Grid_PainelHistorico.Name = "Grid_PainelHistorico";
@@ -76,6 +78,18 @@
             Quantidade.Name = "Quantidade";
             Quantidade.ReadOnly = true;
             // 
+            // ValorCusto
+            // 
+            ValorCusto.HeaderText = "Valor Custo";
+            ValorCusto.Name = "ValorCusto";
+            ValorCusto.ReadOnly = true;
+            // 
+            // ValorVenda
+            // 
+            ValorVenda.HeaderText = "Valor Venda";
+            ValorVenda.Name = "ValorVenda";
+            ValorVenda.ReadOnly = true;
+            // 
             // Horario
             // 
             Horario.HeaderText = "Horário";
@@ -102,6 +116,8 @@
         private DataGridViewTextBoxColumn Produto;
         private DataGridViewTextBoxColumn Tipo;
         private DataGridViewTextBoxColumn Quantidade;
+        private DataGridViewTextBoxColumn ValorCusto;
+        private DataGridViewTextBoxColumn ValorVenda;
         private DataGridViewTextBoxColumn Horario;
     }
 }

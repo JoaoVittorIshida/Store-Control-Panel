@@ -35,18 +35,21 @@
             Grid_PainelEstoque = new DataGridView();
             IdProduto = new DataGridViewTextBoxColumn();
             Produto = new DataGridViewTextBoxColumn();
-            Valor = new DataGridViewTextBoxColumn();
+            ValorCusto = new DataGridViewTextBoxColumn();
+            ValorVenda = new DataGridViewTextBoxColumn();
             Estoque = new DataGridViewTextBoxColumn();
             Btn_Cancelar = new Button();
             Btn_Confirmar = new Button();
             Label_Estoque = new Label();
             index_Estoque = new NumericUpDown();
-            PrecoProduto = new TextBox();
+            PrecoVenda = new TextBox();
             Label_PrecoProduto = new Label();
             Label_NomeProduto = new Label();
             index_CodProduto = new NumericUpDown();
             Label_CodProduto = new Label();
             NomeProduto = new TextBox();
+            label1 = new Label();
+            PrecoCusto = new TextBox();
             Btn_Voltar = new Button();
             Btn_ExcluirProd = new Button();
             Box_AltProd.SuspendLayout();
@@ -93,12 +96,14 @@
             Box_AltProd.Controls.Add(Btn_Confirmar);
             Box_AltProd.Controls.Add(Label_Estoque);
             Box_AltProd.Controls.Add(index_Estoque);
-            Box_AltProd.Controls.Add(PrecoProduto);
+            Box_AltProd.Controls.Add(PrecoVenda);
             Box_AltProd.Controls.Add(Label_PrecoProduto);
             Box_AltProd.Controls.Add(Label_NomeProduto);
             Box_AltProd.Controls.Add(index_CodProduto);
             Box_AltProd.Controls.Add(Label_CodProduto);
             Box_AltProd.Controls.Add(NomeProduto);
+            Box_AltProd.Controls.Add(label1);
+            Box_AltProd.Controls.Add(PrecoCusto);
             Box_AltProd.Location = new Point(84, 165);
             Box_AltProd.Name = "Box_AltProd";
             Box_AltProd.Size = new Size(973, 492);
@@ -112,7 +117,7 @@
             Grid_PainelEstoque.AllowUserToOrderColumns = true;
             Grid_PainelEstoque.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Grid_PainelEstoque.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Grid_PainelEstoque.Columns.AddRange(new DataGridViewColumn[] { IdProduto, Produto, Valor, Estoque });
+            Grid_PainelEstoque.Columns.AddRange(new DataGridViewColumn[] { IdProduto, Produto, ValorCusto, ValorVenda, Estoque });
             Grid_PainelEstoque.Location = new Point(0, 0);
             Grid_PainelEstoque.MultiSelect = false;
             Grid_PainelEstoque.Name = "Grid_PainelEstoque";
@@ -132,11 +137,17 @@
             Produto.Name = "Produto";
             Produto.ReadOnly = true;
             // 
-            // Valor
+            // ValorCusto
             // 
-            Valor.HeaderText = "Valor";
-            Valor.Name = "Valor";
-            Valor.ReadOnly = true;
+            ValorCusto.HeaderText = "Valor de Custo";
+            ValorCusto.Name = "ValorCusto";
+            ValorCusto.ReadOnly = true;
+            // 
+            // ValorVenda
+            // 
+            ValorVenda.HeaderText = "Valor de Venda";
+            ValorVenda.Name = "ValorVenda";
+            ValorVenda.ReadOnly = true;
             // 
             // Estoque
             // 
@@ -170,7 +181,7 @@
             // 
             Label_Estoque.AutoSize = true;
             Label_Estoque.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Label_Estoque.Location = new Point(364, 187);
+            Label_Estoque.Location = new Point(364, 227);
             Label_Estoque.Name = "Label_Estoque";
             Label_Estoque.Size = new Size(68, 21);
             Label_Estoque.TabIndex = 7;
@@ -179,33 +190,33 @@
             // index_Estoque
             // 
             index_Estoque.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            index_Estoque.Location = new Point(438, 187);
+            index_Estoque.Location = new Point(438, 227);
             index_Estoque.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             index_Estoque.Name = "index_Estoque";
             index_Estoque.Size = new Size(51, 25);
             index_Estoque.TabIndex = 9;
             index_Estoque.TextAlign = HorizontalAlignment.Center;
             // 
-            // PrecoProduto
+            // PrecoVenda
             // 
-            PrecoProduto.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            PrecoProduto.Location = new Point(438, 141);
-            PrecoProduto.MaxLength = 10;
-            PrecoProduto.Name = "PrecoProduto";
-            PrecoProduto.Size = new Size(149, 27);
-            PrecoProduto.TabIndex = 8;
-            PrecoProduto.TextChanged += PrecoProduto_TextChanged_1;
-            PrecoProduto.KeyPress += PrecoProduto_KeyPress;
+            PrecoVenda.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            PrecoVenda.Location = new Point(438, 183);
+            PrecoVenda.MaxLength = 10;
+            PrecoVenda.Name = "PrecoVenda";
+            PrecoVenda.Size = new Size(149, 27);
+            PrecoVenda.TabIndex = 8;
+            PrecoVenda.TextChanged += PrecoVenda_TextChanged;
+            PrecoVenda.KeyPress += PrecoProduto_KeyPress;
             // 
             // Label_PrecoProduto
             // 
             Label_PrecoProduto.AutoSize = true;
             Label_PrecoProduto.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Label_PrecoProduto.Location = new Point(380, 141);
+            Label_PrecoProduto.Location = new Point(313, 185);
             Label_PrecoProduto.Name = "Label_PrecoProduto";
-            Label_PrecoProduto.Size = new Size(52, 21);
+            Label_PrecoProduto.Size = new Size(119, 21);
             Label_PrecoProduto.TabIndex = 4;
-            Label_PrecoProduto.Text = "Preço:";
+            Label_PrecoProduto.Text = "Preço de venda:";
             // 
             // Label_NomeProduto
             // 
@@ -244,6 +255,27 @@
             NomeProduto.Name = "NomeProduto";
             NomeProduto.Size = new Size(149, 27);
             NomeProduto.TabIndex = 7;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(313, 142);
+            label1.Name = "label1";
+            label1.Size = new Size(114, 21);
+            label1.TabIndex = 12;
+            label1.Text = "Preço de custo:";
+            // 
+            // PrecoCusto
+            // 
+            PrecoCusto.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            PrecoCusto.Location = new Point(438, 140);
+            PrecoCusto.MaxLength = 10;
+            PrecoCusto.Name = "PrecoCusto";
+            PrecoCusto.Size = new Size(149, 27);
+            PrecoCusto.TabIndex = 13;
+            PrecoCusto.TextChanged += PrecoCusto_TextChanged;
+            PrecoCusto.KeyPress += PrecoCusto_KeyPress;
             // 
             // Btn_Voltar
             // 
@@ -299,7 +331,7 @@
         private NumericUpDown index_CodProduto;
         private Label Label_PrecoProduto;
         private Label Label_NomeProduto;
-        private TextBox PrecoProduto;
+        private TextBox PrecoVenda;
         private Button Btn_Voltar;
         private NumericUpDown index_Estoque;
         private Button Btn_Cancelar;
@@ -307,9 +339,12 @@
         private Label Label_Estoque;
         private Button Btn_ExcluirProd;
         private DataGridView Grid_PainelEstoque;
+        private TextBox PrecoCusto;
+        private Label label1;
         private DataGridViewTextBoxColumn IdProduto;
         private DataGridViewTextBoxColumn Produto;
-        private DataGridViewTextBoxColumn Valor;
+        private DataGridViewTextBoxColumn ValorCusto;
+        private DataGridViewTextBoxColumn ValorVenda;
         private DataGridViewTextBoxColumn Estoque;
     }
 }

@@ -51,13 +51,13 @@ namespace Controle_de_Estoque
             bool nomeRepetido = false;
             try
             {
-                if (idProdutoAtual == 0) 
+                if (idProdutoAtual == 0)
                 {
                     Obj_CmdSQL.CommandText = @"SELECT COUNT(*) 
                                        FROM estoque 
                                        WHERE produto = @Produto";
                 }
-                else 
+                else
                 {
                     Obj_CmdSQL.CommandText = @"SELECT COUNT(*) 
                                        FROM estoque 
@@ -93,7 +93,7 @@ namespace Controle_de_Estoque
 
             string strSQL, produto;
             int idproduto, estoque;
-            decimal valor;
+            decimal valorcusto, valorvenda;
 
             Grid_PainelEstoque.Rows.Clear();
             strSQL = "SELECT * FROM estoque";
@@ -107,12 +107,14 @@ namespace Controle_de_Estoque
                 {
                     idproduto = Convert.ToInt32(DadosCarregados["idproduto"]);
                     produto = DadosCarregados["produto"].ToString();
-                    valor = Convert.ToDecimal(DadosCarregados["valor"]);
                     estoque = Convert.ToInt32(DadosCarregados["estoque"]);
+                    valorcusto = Convert.ToDecimal(DadosCarregados["valorcusto"]);
+                    valorvenda = Convert.ToDecimal(DadosCarregados["valorvenda"]);
 
-                    string ValorFormatado = "R$" + valor.ToString("N2");
+                    string CustoFormatado = "R$" + valorcusto.ToString("N2");
+                    string VendaFormatado = "R$" + valorvenda.ToString("N2");
 
-                    Grid_PainelEstoque.Rows.Add(idproduto, produto, ValorFormatado, estoque);
+                    Grid_PainelEstoque.Rows.Add(idproduto, produto, CustoFormatado, VendaFormatado, estoque);
 
                 }
             }
@@ -133,7 +135,7 @@ namespace Controle_de_Estoque
             Btn_Cancelar.Visible = true;
             Grid_PainelEstoque.Visible = false;
 
-            int novo_cod = 1; 
+            int novo_cod = 1;
 
             try
             {
@@ -224,9 +226,12 @@ namespace Controle_de_Estoque
             //Puxar os valores da linha do DataGrid para as Textbox de edição
             int cod_edit = Convert.ToInt32(Grid_PainelEstoque.CurrentRow.Cells["IdProduto"].Value);
             NomeProduto.Text = Grid_PainelEstoque.CurrentRow.Cells["Produto"].Value.ToString();
-            string valorSemMoeda = (Grid_PainelEstoque.CurrentRow.Cells["Valor"].Value.ToString().Replace("R$", "").Trim());
-            decimal valorProduto = Convert.ToDecimal(valorSemMoeda);
-            PrecoProduto.Text = (valorSemMoeda).ToString();
+            string vendaSemMoeda = (Grid_PainelEstoque.CurrentRow.Cells["ValorVenda"].Value.ToString().Replace("R$", "").Trim());
+            string custoSemMoeda = (Grid_PainelEstoque.CurrentRow.Cells["ValorCusto"].Value.ToString().Replace("R$", "").Trim());
+            decimal vendaProduto = Convert.ToDecimal(vendaSemMoeda);
+            decimal custoProduto = Convert.ToDecimal(custoSemMoeda);
+            PrecoVenda.Text = (vendaProduto).ToString();
+            PrecoCusto.Text = (custoProduto).ToString();
             index_Estoque.Value = Convert.ToInt32(Grid_PainelEstoque.CurrentRow.Cells["Estoque"].Value);
 
 
@@ -250,7 +255,7 @@ namespace Controle_de_Estoque
             //Função do botão confirmar, funciona para criar e editar.
 
             //operação de criação de produto.
-            if(index_Estoque.Value < 0)
+            if (index_Estoque.Value < 0)
             {
                 MessageBox.Show("Estoque não pode ser negativo, verifique e tente novamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -258,27 +263,28 @@ namespace Controle_de_Estoque
 
             if (op == 1)
             {
-                if (string.IsNullOrEmpty(NomeProduto.Text) || string.IsNullOrEmpty(PrecoProduto.Text))
+                if (string.IsNullOrEmpty(NomeProduto.Text) || string.IsNullOrEmpty(PrecoVenda.Text))
                 {
                     MessageBox.Show("Nome ou preço não podem ser nulos, verifique e tente novamente.",
                                     "Erro na criação de produto", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if(VerificarNomeProdutoRepetido(NomeProduto.Text, 0) == true)
+                if (VerificarNomeProdutoRepetido(NomeProduto.Text, 0) == true)
                 {
-                    MessageBox.Show("Nome de produto repetido, verifique e tente novamente.", "Nome repetido", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show("Nome de produto repetido, verifique e tente novamente.", "Nome repetido", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 try
-                {      
+                {
                     Obj_CmdSQL.Parameters.Clear();
-                    Obj_CmdSQL.CommandText = "INSERT INTO estoque (idproduto, produto, valor, estoque) VALUES (@IDProduto, @Produto, @Valor, @Estoque)";
+                    Obj_CmdSQL.CommandText = "INSERT INTO estoque (idproduto, produto, valorcusto, valorvenda, estoque) VALUES (@IDProduto, @Produto, @ValorCusto, @ValorVenda, @Estoque)";
 
                     Obj_CmdSQL.Parameters.AddWithValue("@IDProduto", index_CodProduto.Value);
                     Obj_CmdSQL.Parameters.AddWithValue("@Produto", NomeProduto.Text);
-                    Obj_CmdSQL.Parameters.AddWithValue("@Valor", PrecoProduto.Text);
+                    Obj_CmdSQL.Parameters.AddWithValue("@ValorCusto", PrecoCusto.Text);
+                    Obj_CmdSQL.Parameters.AddWithValue("@ValorVenda", PrecoVenda.Text);
                     Obj_CmdSQL.Parameters.AddWithValue("@Estoque", index_Estoque.Value);
 
                     Obj_CmdSQL.ExecuteNonQuery();
@@ -296,7 +302,7 @@ namespace Controle_de_Estoque
             //operação de edição de produto.
             if (op == 2)
             {
-                if (string.IsNullOrEmpty(NomeProduto.Text) || string.IsNullOrEmpty(PrecoProduto.Text))
+                if (string.IsNullOrEmpty(NomeProduto.Text) || string.IsNullOrEmpty(PrecoVenda.Text))
                 {
                     MessageBox.Show("Nome ou preço não podem ser nulos, verifique e tente novamente.",
                                     "Erro na edição de produto", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -312,11 +318,12 @@ namespace Controle_de_Estoque
                 try
                 {
                     Obj_CmdSQL.Parameters.Clear();
-                    Obj_CmdSQL.CommandText = "UPDATE estoque SET produto = @Produto, valor = @Valor, estoque = @Estoque WHERE idproduto = @IdProduto";
+                    Obj_CmdSQL.CommandText = "UPDATE estoque SET produto = @Produto, valorcusto = @ValorCusto, valorvenda = @ValorVenda, estoque = @Estoque WHERE idproduto = @IdProduto";
 
                     Obj_CmdSQL.Parameters.AddWithValue("@Produto", NomeProduto.Text);
-                    Obj_CmdSQL.Parameters.AddWithValue("@Valor", PrecoProduto.Text);
                     Obj_CmdSQL.Parameters.AddWithValue("@Estoque", index_Estoque.Value);
+                    Obj_CmdSQL.Parameters.AddWithValue("@ValorCusto", PrecoCusto.Text);
+                    Obj_CmdSQL.Parameters.AddWithValue("@ValorVenda", PrecoVenda.Text);
                     Obj_CmdSQL.Parameters.AddWithValue("@IdProduto", index_CodProduto.Value);
 
 
@@ -341,7 +348,8 @@ namespace Controle_de_Estoque
             Btn_Cancelar.Visible = false;
             index_CodProduto.Value = 0;
             NomeProduto.Text = string.Empty;
-            PrecoProduto.Text = string.Empty;
+            PrecoVenda.Text = string.Empty;
+            PrecoCusto.Text = string.Empty;
             index_Estoque.Value = 0;
             Grid_PainelEstoque.Visible = true;
             AtualizarDataGridSemFiltro();
@@ -360,7 +368,7 @@ namespace Controle_de_Estoque
 
             index_CodProduto.Value = 0;
             NomeProduto.Text = string.Empty;
-            PrecoProduto.Text = string.Empty;
+            PrecoVenda.Text = string.Empty;
             index_Estoque.Value = 0;
             Grid_PainelEstoque.Visible = true;
             AtualizarDataGridSemFiltro();
@@ -399,35 +407,53 @@ namespace Controle_de_Estoque
             Close();
         }
 
-        private void PrecoProduto_TextChanged(object sender, EventArgs e)
-        {
-            //Ajusta o cursor para o final da entrada na mudança de texto
-            PrecoProduto.SelectionStart = PrecoProduto.Text.Length;
-        }
-
-        private void PrecoProduto_TextChanged_1(object sender, EventArgs e)
-        {
-            //Obtém o texto atual e formata para o padrão
-            string textoAtual = PrecoProduto.Text.Replace(",", "").Replace(".", "");
-            if (decimal.TryParse(textoAtual, out decimal valor))
-            {
-                PrecoProduto.TextChanged -= PrecoProduto_TextChanged;
-
-                //Converte o valor para o formato correto
-                PrecoProduto.Text = (valor / 100).ToString("F2", CultureInfo.InvariantCulture);
-
-                //Ajusta o cursor para o final
-                PrecoProduto.SelectionStart = PrecoProduto.Text.Length;
-                PrecoProduto.TextChanged += PrecoProduto_TextChanged;
-            }
-        }
-
         private void PrecoProduto_KeyPress(object sender, KeyPressEventArgs e)
         {
             //Permitir apenas dígitos e o caractere de ponto ou vírgula
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
+            }
+        }
+
+        private void PrecoCusto_TextChanged(object sender, EventArgs e)
+        {
+            string textoAtual = PrecoCusto.Text.Replace(",", "").Replace(".", "");
+            if (decimal.TryParse(textoAtual, out decimal valor))
+            {
+                PrecoCusto.TextChanged -= PrecoCusto_TextChanged;
+
+                //Converte o valor para o formato correto
+                PrecoCusto.Text = (valor / 100).ToString("F2", CultureInfo.InvariantCulture);
+
+                //Ajusta o cursor para o final
+                PrecoCusto.SelectionStart = PrecoCusto.Text.Length;
+                PrecoCusto.TextChanged += PrecoCusto_TextChanged;
+            }
+        }
+
+        private void PrecoCusto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != ',' && e.KeyChar != '.' && e.KeyChar != (char)Keys.Back)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void PrecoVenda_TextChanged(object sender, EventArgs e)
+        {
+            //Obtém o texto atual e formata para o padrão
+            string textoAtual = PrecoVenda.Text.Replace(",", "").Replace(".", "");
+            if (decimal.TryParse(textoAtual, out decimal valor))
+            {
+                PrecoVenda.TextChanged -= PrecoVenda_TextChanged;
+
+                //Converte o valor para o formato correto
+                PrecoVenda.Text = (valor / 100).ToString("F2", CultureInfo.InvariantCulture);
+
+                //Ajusta o cursor para o final
+                PrecoVenda.SelectionStart = PrecoVenda.Text.Length;
+                PrecoVenda.TextChanged += PrecoVenda_TextChanged;
             }
         }
     }

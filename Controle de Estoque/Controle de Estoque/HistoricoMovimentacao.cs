@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf.WellKnownTypes;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,6 +44,7 @@ namespace Controle_de_Estoque
 
                 string strSQL = "", usuario, produto, tipo, horario;
                 int quantidade;
+                decimal valorvenda, valorcusto;
                 
                 
 
@@ -61,11 +63,15 @@ namespace Controle_de_Estoque
                         produto = DadosCarregados["produto"].ToString();
                         tipo = DadosCarregados["tipoMovimentacao"].ToString();
                         quantidade = Convert.ToInt32(DadosCarregados["quantidade"]);
+                        valorcusto = Convert.ToDecimal(DadosCarregados["valorcusto"]);
+                        valorvenda = Convert.ToDecimal(DadosCarregados["valorvenda"]);
                         DateTime dataHoraCriacao = Convert.ToDateTime(DadosCarregados["horaMovimentacao"]);
                         horario = dataHoraCriacao.ToString();
 
+                        string ValorFormatado = "R$" + valorvenda.ToString("N2");
+                        string CustoFormatado = valorcusto.ToString();
 
-                        Grid_PainelHistorico.Rows.Add(usuario, produto, tipo, quantidade, horario);
+                    Grid_PainelHistorico.Rows.Add(usuario, produto, tipo, quantidade, CustoFormatado, ValorFormatado, horario);
 
                     }
                 }

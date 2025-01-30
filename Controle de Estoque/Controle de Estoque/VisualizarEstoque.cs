@@ -35,7 +35,7 @@ namespace Controle_de_Estoque
                 decimal valor;
 
                 Grid_PainelEstoque.Rows.Clear();
-                strSQL = "SELECT * FROM estoque";
+                strSQL = "SELECT idproduto, produto, valorvenda, estoque FROM estoque";
 
                 Obj_CmdSQL.CommandText = strSQL;
 
@@ -46,7 +46,7 @@ namespace Controle_de_Estoque
                     {
                         idproduto = Convert.ToInt32(DadosCarregados["idproduto"]);
                         produto = DadosCarregados["produto"].ToString();
-                        valor = Convert.ToDecimal(DadosCarregados["valor"]);
+                        valor = Convert.ToDecimal(DadosCarregados["valorvenda"]);
                         estoque = Convert.ToInt32(DadosCarregados["estoque"]);
 
                         string ValorFormatado = "R$" + valor.ToString("N2");
@@ -81,9 +81,9 @@ namespace Controle_de_Estoque
 
                 Grid_PainelEstoque.Rows.Clear();
                 if (op == 1)
-                    strSQL = "SELECT * FROM estoque WHERE produto LIKE " + "'%" + prodbusca + "%'";
+                    strSQL = "SELECT idproduto, produto, valorvenda, estoque FROM estoque WHERE produto LIKE " + "'%" + prodbusca + "%'";
                 if (op == 2)
-                    strSQL = "SELECT * FROM estoque WHERE idproduto = " + idbusca;
+                    strSQL = "SELECT idproduto, produto, valorvenda, estoque FROM estoque WHERE idproduto = " + idbusca;
                 if (op != 1 && op != 2)
                     return;
 
@@ -97,7 +97,7 @@ namespace Controle_de_Estoque
                     {
                         idproduto = Convert.ToInt32(DadosCarregados["idproduto"]);
                         produto = DadosCarregados["produto"].ToString();
-                        valor = Convert.ToDecimal(DadosCarregados["valor"]);
+                        valor = Convert.ToDecimal(DadosCarregados["valorvenda"]);
                         estoque = Convert.ToInt32(DadosCarregados["estoque"]);
 
                         string ValorFormatado = "R$" + valor.ToString("N2");

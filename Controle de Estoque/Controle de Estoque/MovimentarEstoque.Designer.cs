@@ -33,6 +33,7 @@
             Grid_PainelEstoque = new DataGridView();
             IdProduto = new DataGridViewTextBoxColumn();
             Produto = new DataGridViewTextBoxColumn();
+            ValorCusto = new DataGridViewTextBoxColumn();
             Valor = new DataGridViewTextBoxColumn();
             Estoque = new DataGridViewTextBoxColumn();
             index_Estoque = new NumericUpDown();
@@ -107,7 +108,7 @@
             Grid_PainelEstoque.AllowUserToOrderColumns = true;
             Grid_PainelEstoque.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             Grid_PainelEstoque.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            Grid_PainelEstoque.Columns.AddRange(new DataGridViewColumn[] { IdProduto, Produto, Valor, Estoque });
+            Grid_PainelEstoque.Columns.AddRange(new DataGridViewColumn[] { IdProduto, Produto, ValorCusto, Valor, Estoque });
             Grid_PainelEstoque.Location = new Point(0, 0);
             Grid_PainelEstoque.MultiSelect = false;
             Grid_PainelEstoque.Name = "Grid_PainelEstoque";
@@ -116,6 +117,7 @@
             Grid_PainelEstoque.StandardTab = true;
             Grid_PainelEstoque.TabIndex = 15;
             Grid_PainelEstoque.TabStop = false;
+            Grid_PainelEstoque.CellContentClick += Grid_PainelEstoque_CellContentClick;
             // 
             // IdProduto
             // 
@@ -128,6 +130,13 @@
             Produto.HeaderText = "Produto";
             Produto.Name = "Produto";
             Produto.ReadOnly = true;
+            // 
+            // ValorCusto
+            // 
+            ValorCusto.HeaderText = "Valor Custo";
+            ValorCusto.Name = "ValorCusto";
+            ValorCusto.ReadOnly = true;
+            ValorCusto.Visible = false;
             // 
             // Valor
             // 
@@ -429,11 +438,12 @@
         private NumericUpDown index_Estoque;
         private Button Btn_LimparFiltro;
         private DataGridView Grid_PainelEstoque;
-        private DataGridViewTextBoxColumn IdProduto;
-        private DataGridViewTextBoxColumn Produto;
-        private DataGridViewTextBoxColumn Valor;
-        private DataGridViewTextBoxColumn Estoque;
         private Button Btn_VerEstoque;
         private Label Lbl_Vendedor;
+        private DataGridViewTextBoxColumn IdProduto;
+        private DataGridViewTextBoxColumn Produto;
+        private DataGridViewTextBoxColumn ValorCusto;
+        private DataGridViewTextBoxColumn Valor;
+        private DataGridViewTextBoxColumn Estoque;
     }
 }

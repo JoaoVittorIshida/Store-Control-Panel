@@ -34,11 +34,11 @@ namespace Controle_de_Estoque
 
             string strSQL = "", produto;
             int idproduto, estoque;
-            decimal valor;
+            decimal valor, valorcusto;
 
             Grid_PainelEstoque.Rows.Clear();
 
-            strSQL = "SELECT * FROM estoque WHERE idproduto = " + idbusca;
+            strSQL = "SELECT idproduto, produto, valorvenda, estoque FROM estoque WHERE idproduto = " + idbusca;
 
             Obj_CmdSQL.CommandText = strSQL;
 
@@ -49,12 +49,14 @@ namespace Controle_de_Estoque
                 {
                     idproduto = Convert.ToInt32(DadosCarregados["idproduto"]);
                     produto = DadosCarregados["produto"].ToString();
-                    valor = Convert.ToDecimal(DadosCarregados["valor"]);
+                    valorcusto = Convert.ToDecimal(DadosCarregados["valorcusto"]);
+                    valor = Convert.ToDecimal(DadosCarregados["valorvenda"]);
                     estoque = Convert.ToInt32(DadosCarregados["estoque"]);
 
                     string ValorFormatado = "R$" + valor.ToString("N2");
+                    //string custoFormatado = valorcusto.ToString();
 
-                    Grid_PainelEstoque.Rows.Add(idproduto, produto, ValorFormatado, estoque);
+                    Grid_PainelEstoque.Rows.Add(idproduto, produto, valorcusto, ValorFormatado, estoque);
 
                 }
             }
@@ -70,7 +72,7 @@ namespace Controle_de_Estoque
 
             string strSQL, produto;
             int idproduto, estoque;
-            decimal valor;
+            decimal valor, valorcusto;
 
             Grid_PainelEstoque.Rows.Clear();
             strSQL = "SELECT * FROM estoque";
@@ -84,12 +86,15 @@ namespace Controle_de_Estoque
                 {
                     idproduto = Convert.ToInt32(DadosCarregados["idproduto"]);
                     produto = DadosCarregados["produto"].ToString();
-                    valor = Convert.ToDecimal(DadosCarregados["valor"]);
+                    valorcusto = Convert.ToDecimal(DadosCarregados["valorcusto"]);
+                    valor = Convert.ToDecimal(DadosCarregados["valorvenda"]);
                     estoque = Convert.ToInt32(DadosCarregados["estoque"]);
 
                     string ValorFormatado = "R$" + valor.ToString("N2");
+                    //string custoFormatado = valorcusto.ToString();
 
-                    Grid_PainelEstoque.Rows.Add(idproduto, produto, ValorFormatado, estoque);
+
+                    Grid_PainelEstoque.Rows.Add(idproduto, produto, valorcusto, ValorFormatado, estoque);
 
                 }
             }
@@ -240,17 +245,26 @@ namespace Controle_de_Estoque
 
             //Registro de histórico de movimentações no banco
             Obj_CmdSQL.Parameters.Clear();
-            Obj_CmdSQL.CommandText = "INSERT INTO historicomov (usuario, produto, tipoMovimentacao, quantidade, horaMovimentacao) VALUES (@Usuario, @Produto, @tipoMov, @Quantidade, @horaMov)";
+            Obj_CmdSQL.CommandText = "INSERT INTO historicomov (usuario, produto, tipoMovimentacao, quantidade, valorcusto, valorvenda, horaMovimentacao) VALUES (@Usuario, @Produto, @tipoMov, @Quantidade, @valorCusto, @valorVenda, @horaMov)";
             Obj_CmdSQL.Parameters.AddWithValue("@Usuario", usuarioLogado);
             Obj_CmdSQL.Parameters.AddWithValue("@Produto", NomeProduto.Text);
-            if (op == 1)
+            if (op == 1) 
+            {
                 Obj_CmdSQL.Parameters.AddWithValue("@tipoMov", "Entrada");
+                Obj_CmdSQL.Parameters.AddWithValue("@valorVenda", 0);
+            }
             if (op == 2)
+            {
+                Obj_CmdSQL.Parameters.AddWithValue("@valorVenda", (Convert.ToDecimal(PrecoProduto.Text) * index_Movimentacao.Value));
                 Obj_CmdSQL.Parameters.AddWithValue("@tipoMov", "Saída");
+
+            }
             Obj_CmdSQL.Parameters.AddWithValue("@Quantidade", index_Movimentacao.Value);
+            Obj_CmdSQL.Parameters.AddWithValue("@valorCusto", (Convert.ToDecimal(Grid_PainelEstoque.CurrentRow.Cells["ValorCusto"].Value) * index_Movimentacao.Value));
             Obj_CmdSQL.Parameters.AddWithValue("@horaMov", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
             Obj_CmdSQL.ExecuteNonQuery();
-            if(nivelPermissao == 0)
+            if (nivelPermissao == 0)
                 MessageBox.Show("Venda realizada com sucesso!", "Venda confirmada", MessageBoxButtons.OK);
             else
                 MessageBox.Show("Movimentação realizada com sucesso!", "Resultado da movimentação", MessageBoxButtons.OK);
@@ -284,6 +298,11 @@ namespace Controle_de_Estoque
         {
             VisualizarEstoque visualizarEstoque = new VisualizarEstoque();
             visualizarEstoque.ShowDialog();
+        }
+
+        private void Grid_PainelEstoque_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 

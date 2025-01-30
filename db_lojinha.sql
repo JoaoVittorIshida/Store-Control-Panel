@@ -27,21 +27,12 @@ DROP TABLE IF EXISTS `estoque`;
 CREATE TABLE `estoque` (
   `idproduto` int NOT NULL,
   `produto` varchar(50) NOT NULL,
-  `valor` decimal(10,2) NOT NULL,
+  `valorcusto` decimal(10,2) NOT NULL,
+  `valorvenda` decimal(10,2) NOT NULL,
   `estoque` int NOT NULL,
   PRIMARY KEY (`idproduto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estoque`
---
-
-LOCK TABLES `estoque` WRITE;
-/*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
-INSERT INTO `estoque` VALUES (1,'Abacaxi',10.99,15),(2,'Mouse razer',200.00,4),(3,'Ferro (KG)',15000.00,10),(4,'Maça',10.00,4),(5,'Computador',3500.00,15),(6,'Mesa',249.90,5),(7,'Caneta vermelha',14.00,22),(8,'Banana o Retorno',15.90,20);
-/*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `historicomov`
@@ -55,18 +46,11 @@ CREATE TABLE `historicomov` (
   `produto` varchar(50) NOT NULL,
   `tipoMovimentacao` varchar(50) NOT NULL,
   `quantidade` int NOT NULL,
+  `valorcusto` decimal(10,2) NOT NULL,
+  `valorvenda` decimal(10,2) NOT NULL,
   `horaMovimentacao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `historicomov`
---
-
-LOCK TABLES `historicomov` WRITE;
-/*!40000 ALTER TABLE `historicomov` DISABLE KEYS */;
-/*!40000 ALTER TABLE `historicomov` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `login`
@@ -81,15 +65,6 @@ CREATE TABLE `login` (
   `permissao` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `login`
---
-
-LOCK TABLES `login` WRITE;
-/*!40000 ALTER TABLE `login` DISABLE KEYS */;
-/*!40000 ALTER TABLE `login` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -100,4 +75,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-19 15:25:37
+-- Dump completed on 2025-01-30 19:11:17
